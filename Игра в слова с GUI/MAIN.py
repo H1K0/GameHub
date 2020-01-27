@@ -8,7 +8,6 @@ from PyQt5.QtWidgets import (
     QFileDialog, QInputDialog
 )
 from PyQt5.QtGui import QPixmap
-from PIL import Image
 from wordwork import *
 from logwork import Log
 from click import clickable
