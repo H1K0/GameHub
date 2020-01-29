@@ -9,9 +9,27 @@ from PyQt5.QtWidgets import (
 )
 #from PyQt5.QtGui import QPixmap
 from wordwork import *
+import socket
 #from logwork import Log
 #from click import clickable
-import client
+
+
+def get():
+    return sock.recv(1024).decode()
+
+def post(data):
+    sock.send(bytes(data, encoding='utf-8'))
+
+
+def connect():
+    global sock
+    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    sock.connect(('176.195.163.164', 8888))
+    address = users_list[choose - 1]
+    sock.close()
+    del sock
+    connect()
+    join(address)
 
 
 class Start(QWidget):
@@ -19,34 +37,20 @@ class Start(QWidget):
         super().__init__()
         uic.loadUi('start.ui',self)
         self.game_ai.clicked.connect(self.play_with_ai)
-        self.game_create.clicked.connect(self.create)
-        self.game_join.clicked.connect(self.join)
+        self.game_net.clicked.connect(self.play_on_net)
 
     def play_with_ai(self):
-        global choose,opponent
+        global opponent
         opponent='AI'
-        choose=Choose('AI')
+        choose=ChooseGame('AI')
         choose.show()
         self.close()
 
-    def create(self):
-        global choose,player
-        player='creator'
-        choose=Choose('create')
+    def play_on_net(self):
+        global opponent
+        opponent='Какой-то челик'
+        choose=ChoosePart()
         choose.show()
-        self.report.setText('Waiting for opponent...')
-        '''if player connected:
-        global game
-        game.show()'''
-        self.close()
-
-    def join(self):
-        global player,game
-        player='joiner'
-        client.join()
-        '''if game=='wordgame':
-        game=WordGame()
-        game.show()'''
         self.close()
 
 '''
@@ -65,19 +69,58 @@ class Auth(QWidget):
         self.close()
 '''
 
-class Choose(QWidget):
-    def __init__(self,mode='AI'):
+class ChoosePart(QWidget):
+    def __init__(self):
         super().__init__()
-        uic.loadUi('choose.ui',self)
+        uic.loadUi('choosepart.ui',self)
+        self.create_btn.clicked.connect(self.create)
+        self.join_btn.clicked.connect(self.join)
+
+    def create(self):
+        global player
+        player='creator'
+        choose=ChooseGame('create')
+        choose.show()
+        self.close()
+
+    def join(self):
+        global player
+        player='joiner'
+        choose=ChooseGame('join')
+        choose.show()
+        self.close()
+
+
+class Waiting(QWidget):
+    def __init__(self):
+        super().__init__()
+        uic.loadUi('waiting.ui',self)
+
+
+class ChooseGame(QWidget):
+    def __init__(self,mode=''):
+        super().__init__()
+        uic.loadUi('choosegame.ui',self)
         self.mode=mode
         self.wordgame.clicked.connect(self.play_wg)
 
     def play_wg(self):
-        global game
+        global game,opponent
         game = WordGame()
-        if self.mode=='create':
-            client.create('wordgame')
-        else:
+        if self.mode=='AI':
+            game.show()
+        elif self.mode=='create':
+            sock.send(bytes("create", encoding='utf-8'))
+            waiting=Waiting()
+            waiting.show()
+            while 1:
+                inf = sock.recv(1024).decode()
+                if inf=='join':
+                    waiting.close()
+                    game.show()
+        elif self.mode=='join':
+            sock.send(bytes("join", encoding='utf-8'))
+            sock.send(bytes(address, encoding='utf-8'))
             game.show()
         self.close()
 
@@ -111,14 +154,14 @@ class SignIn(QWidget): # окно регистрации
         self.close()
 '''
 
-opponent='opponent'
-player='player'
+opponent=''
+player=''
 MAINDICT = Dictionary('..\\Database\\Russian\\words.txt') # основной словарь слов
 
 
 class WordGame(QMainWindow): # главное окно игры
     def __init__(self):
-        global MAINDICT, username
+        global MAINDICT, username,player
         super().__init__()
         uic.loadUi('main.ui', self)
         #self.log_AI = Log(AI)
@@ -131,13 +174,13 @@ class WordGame(QMainWindow): # главное окно игры
         #self.nickname_player2.setText(AI)
         self.wlist = MAINDICT.data
         self.miss = 3
-        self.word = self.wlist.pop(rnd(0, len(self.wlist)))
         if opponent=='AI':
+            self.word = self.wlist.pop(rnd(0, len(self.wlist)))
             self.gameview.insertItem(0, f'{opponent}: {self.word}')
-        elif player=='creator':
-            pass
         elif player=='joiner':
-            pass
+            self.word=get()
+            self.gameview.insertItem(0, f'{opponent}: {self.word}')
+        player='Я'
         self.isrun = False
         self.help.triggered.connect(self.showhelp)
         #self.stats.triggered.connect(lambda: self.showstats(player))
@@ -175,19 +218,23 @@ class WordGame(QMainWindow): # главное окно игры
             return
         if playerword in self.wlist:
             self.wlist.remove(playerword)
-        available = list(filter(lambda w: playerword >> w, self.wlist))
-        if available:
-            self.word = available[rnd(0, len(available) - 1)]
-            self.wlist.remove(self.word)
-            #self.log_AI.move(AI, str(self.word))
-            #self.log_player.move(AI, str(self.word))
-            self.gameview.insertItem(0, f'{opponent}: {self.word}')
+        if opponent=='AI':
+            available = list(filter(lambda w: playerword >> w, self.wlist))
+            if available:
+                self.word = available[rnd(0, len(available) - 1)]
+                self.wlist.remove(self.word)
+                #self.log_AI.move(AI, str(self.word))
+                #self.log_player.move(AI, str(self.word))
+                self.gameview.insertItem(0, f'{opponent}: {self.word}')
+            else:
+                self.win()
+            del available
         else:
-            self.win()
-        del available
+            self.word=get()
+            self.gameview.insertItem(0, f'{opponent}: {self.word}')
 
     def mistake(self, text): # обработка ошибки
-        self.miss -= 1
+        #self.miss -= 1
         #self.log_AI.mistake(0, False)
         #self.log_player.mistake(3 - self.miss)
         if self.miss > 0:
@@ -246,9 +293,9 @@ class WordGame(QMainWindow): # главное окно игры
         dlg.show()
         del dlg'''
 
-    def closeEvent(self, event):
+    '''def closeEvent(self, event):
         if self.isrun:
-            self.lose()
+            self.lose()'''
 
 
 class HelpDialog(QDialog): # окно справки
