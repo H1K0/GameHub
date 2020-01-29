@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Dialog</class>
+ <widget class="QDialog" name="Dialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>490</width>
+    <height>420</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>490</width>
+    <height>420</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>490</width>
+    <height>420</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>Справка</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true"/>
+  </property>
+  <widget class="QLabel" name="out">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>20</y>
+     <width>450</width>
+     <height>380</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Comic Sans MS</family>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="text">
+    <string>&lt;p&gt;&lt;strong&gt;ПРАВИЛА ИГРЫ&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Я начинаю игру с рандомно выбранного слова. Девушкам надо уступать, особенно младшим! Твоя задача - ответить мне другим словом, начинающимся с последней буквы моего слова. &lt;strong&gt;Слова не должны повторяться!&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Важный момент!&lt;/strong&gt; Слово может быть только нарицательным существительным единственного числа в именительном падеже!&lt;/p&gt;
+&lt;p&gt;Однако, как мы знаем, в русском языке есть такие буквы, с которых не начинается ни одно слово: &lt;strong&gt;&quot;ъ&quot;, &quot;ы&quot;, &quot;ь&quot;&lt;/strong&gt;. Так что если они встречаются в конце слова, мы их &lt;strong&gt;игнорим&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;Если ты назовешь слово, которое не подходит вышеприведенным критериям или которое уже называлось в игре, то это зачтется как &lt;strong&gt;ошибка&lt;/strong&gt;. Сделав три ошибки, ты &lt;strong&gt;проиграешь&lt;/strong&gt;!&lt;/p&gt;
+&lt;p&gt;Однако если же я исчерпаю всю свою базу данных и не смогу тебе ответить, то ты &lt;strong&gt;выиграешь&lt;/strong&gt;!&lt;/p&gt;
+&lt;p&gt;Кстати, слов я сейчас знаю вот столько:&lt;/p&gt;</string>
+   </property>
+   <property name="wordWrap">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLCDNumber" name="number_of_words">
+   <property name="geometry">
+    <rect>
+     <x>290</x>
+     <y>365</y>
+     <width>180</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="autoFillBackground">
+    <bool>false</bool>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLCDNumber{border: 0px solid rgba(255,255,255,0);}</string>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::StyledPanel</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Sunken</enum>
+   </property>
+   <property name="lineWidth">
+    <number>1</number>
+   </property>
+   <property name="smallDecimalPoint">
+    <bool>false</bool>
+   </property>
+   <property name="segmentStyle">
+    <enum>QLCDNumber::Flat</enum>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

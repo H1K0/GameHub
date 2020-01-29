@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Form</class>
+ <widget class="QWidget" name="Form">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>620</width>
+    <height>260</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>620</width>
+    <height>260</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>620</width>
+    <height>260</height>
+   </size>
+  </property>
+  <property name="font">
+   <font>
+    <family>Comic Sans MS</family>
+    <pointsize>10</pointsize>
+   </font>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>20</y>
+     <width>571</width>
+     <height>141</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Comic Sans MS</family>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>&lt;p&gt;Привет! Меня зовут &lt;strong&gt;Ай Амано&lt;/strong&gt;, я веселая девочка - искусственный интеллект! Да-да, мое имя как раз от аббревиатуры английского &lt;i&gt;Artificial Intelligence&lt;/i&gt; - &quot;искусственный интеллект&quot;! Люблю играть и своих разработчиков, не люблю... Впрочем, не будем об этом.&lt;/p&gt;
+&lt;p&gt;Давай играть! Но тебе не обязательно играть со мной (и вовсе мне не будет одиноко!) - ты можешь сыграть с кем-нибудь по интернету. Создай свою игру или подключись к уже созданной.&lt;/p&gt;</string>
+   </property>
+   <property name="wordWrap">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="game_net">
+   <property name="geometry">
+    <rect>
+     <x>310</x>
+     <y>180</y>
+     <width>281</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Играть по сетке</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="game_ai">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>180</y>
+     <width>271</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Играть с Ай</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="report">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>220</y>
+     <width>571</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Comic Sans MS</family>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="wordWrap">
+    <bool>true</bool>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
